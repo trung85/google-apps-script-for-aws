@@ -19,11 +19,17 @@ function testAws() {
 
 function testAwsGetObjectExists() {
   AWS.init(access_key, secret_key);
-  var contents = AWS.request("s3", region, "GetObject", undefined, "GET", undefined, undefined, name_of_object_that_exists, { "Bucket": bucket_name });
-  if (contents == "file") {
-    Logger.log("testAwsGetObjectExists - PASS");
-  } else {
-    Logger.log("testAwsGetObjectExists - FAIL - contents [" + contents + "] did not match expected result");
+  try {
+    var contents = AWS.request("s3", region, "GetObject", undefined, "GET", undefined, undefined, name_of_object_that_exists, { "Bucket": bucket_name });
+    if (contents == "file") {
+      Logger.log("testAwsGetObjectExists - PASS");
+    } else {
+      Logger.log("testAwsGetObjectExists - FAIL - contents [" + contents + "] did not match expected result");
+    }
+  } catch(e) {
+    var message = e.toString();
+    Logger.log("testAwsGetObjectExists - FAIL - unexpected message [" + message + "]");
+    Logger.log(e);
   }
 }
 
