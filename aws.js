@@ -66,14 +66,8 @@ var AWS = (function() {
 
       var Crypto = loadCrypto();
 
-      var d = new Date();
-      var dateString = d.getUTCFullYear()
-                      + addZero(d.getUTCMonth()+1)
-                      + addZero(d.getUTCDate());
-      var dateTimeString = dateString + "T"
-                          + addZero(d.getUTCHours())
-                          + addZero(d.getUTCMinutes())
-                          + addZero(d.getUTCSeconds()) + "Z";
+      var dateTimeString = Utilities.formatDate(new Date(), "GMT", "yyyyMMdd'T'HHmmss'Z'");
+      var dateString = dateTimeString.substring(0, 8);
 
       method = method || "GET";
       uri = uri || "/";
@@ -199,10 +193,6 @@ var AWS = (function() {
   // For characters only
   function isCanon(c) {
     return /[a-z0-9-_.~=&]/i.test(c);
-  }
-
-  function addZero(s) {
-    return (Number(s) < 10 ? "0" : "") + String(s);
   }
 
   /**
